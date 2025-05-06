@@ -1,12 +1,44 @@
 {% extends 'feedback/base.html' %} {% block content %}
-<h2>Feedback Form</h2>
+<h2 class="feedback-heading">Feedback Form</h2>
 <form method="post">
   {% csrf_token %} {% for question in questions %}
-  <p><strong>{{ question.question_text }}</strong></p>
-  {% for choice in question.choice_set.all %}
-  <label> <input type="radio" name="q{{ question.id }}" value="{{ choice.id }}" required /> {{ choice.choice_text }} </label
-  ><br />
-  {% endfor %} {% endfor %}
+  <p class="question"><strong>{{ question.question_text }}</strong></p>
+
+  <select name="q{{ question.id }}" required>
+    <option value="" selected disabled>Select an option</option>
+
+    {% if question.id == 1 %}
+    <option value="Satisfied">Satisfied</option>
+    <option value="Neutral">Neutral</option>
+    <option value="Dissatisfied">Dissatisfied</option>
+
+    {% elif question.id == 2 %}
+    <option value="Excellent">Excellent</option>
+    <option value="Fair">Fair</option>
+    <option value="Needs Improvement">Needs Improvement</option>
+
+    {% elif question.id == 3 %}
+    <option value="Yes">Yes</option>
+    <option value="No">No</option>
+
+    {% elif question.id == 4 %}
+    <option value="Excellent">Excellent</option>
+    <option value="Fair">Fair</option>
+    <option value="Needs Improvement">Needs Improvement</option>
+
+    {% elif question.id == 5 %}
+    <option value="Satisfied">Satisfied</option>
+    <option value="Neutral">Neutral</option>
+    <option value="Dissatisfied">Dissatisfied</option>
+
+    {% elif question.id == 6 %}
+    <option value="Likely">Likely</option>
+    <option value="Neutral">Neutral</option>
+    <option value="Unlikely">Unlikely</option>
+    {% endif %}
+  </select>
+  <br /><br />
+  {% endfor %}
   <button type="submit">Submit Feedback</button>
 </form>
 {% endblock %}
