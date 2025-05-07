@@ -2,10 +2,22 @@ from django.contrib import admin
 from .models import *
 
 
-class StudentFeedbackAdmin(admin.ModelAdmin):
+class ReadOnlyAdmin(admin.ModelAdmin):
+    def has_add_permission(self, request):
+        return False
+
+    def has_change_permission(self, request, obj=None):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class StudentFeedbackAdmin(ReadOnlyAdmin):
     list_display = ('student_name', 'question_text', 'choice', 'submitted_at')
     list_filter = ('student__course_name', 'student__teacher_name')
     search_fields = ('student__name', 'question__question_text', 'choice')
+    readonly_fields = ('student', 'question', 'choice')
 
     def student_name(self, obj):
         return obj.student.name
@@ -20,6 +32,18 @@ class StudentFeedbackAdmin(admin.ModelAdmin):
     submitted_at.short_description = 'Submitted At'
 
 
-admin.site.register(Question)
-admin.site.register(Student)
+class StudentAdmin(ReadOnlyAdmin):
+    list_display = ('name', 'phone_no', 'course_name',
+                    'teacher_name', 'submitted_at')
+    readonly_fields = ('name', 'phone_no', 'course_name',
+                       'teacher_name', 'submitted_at')
+
+
+class QuestionAdmin(ReadOnlyAdmin):
+    list_display = ('question_text',)
+    readonly_fields = ('question_text',)
+
+
+admin.site.register(Question, QuestionAdmin)
+admin.site.register(Student, StudentAdmin)
 admin.site.register(StudentFeedback, StudentFeedbackAdmin)

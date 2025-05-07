@@ -17,7 +17,7 @@ class Student(models.Model):
 
     def __str__(self):
         return f"""Student name: {self.name}, Student phone no: {self.phone_no}, 
-    		Student course name: ${self.course_name}, Student teacher: {self.teacher_name}"""
+    		Student course name: {self.course_name}, Student teacher: {self.teacher_name}"""
 
 
 class StudentFeedback(models.Model):

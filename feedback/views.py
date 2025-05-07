@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import ensure_csrf_cookie
 from .models import Question, Student, StudentFeedback
 
 
+@ensure_csrf_cookie
 def register(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -20,6 +22,7 @@ def register(request):
     return render(request, 'feedback/register.html')
 
 
+@ensure_csrf_cookie
 def feedback_form(request, student_id):
     if request.method == 'POST':
         student = Student.objects.get(id=student_id)
