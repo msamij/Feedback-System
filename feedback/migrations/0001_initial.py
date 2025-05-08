@@ -4,7 +4,7 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
-def load_questions(apps):
+def load_questions(apps, schema_editor):
     Question = apps.get_model('feedback', 'Question')
     questions = [
         "How satisfied are you with your overall experience at TECHZONE?",
